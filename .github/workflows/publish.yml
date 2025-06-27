@@ -11,9 +11,6 @@ on:
       - pip-tools/**
   workflow_dispatch:
 
-env:
-  IMAGE_NAME: 'python-tools'
-
 jobs:
   publish:
     uses: ./.github/workflows/docker-build-push-multi-registry.yml
