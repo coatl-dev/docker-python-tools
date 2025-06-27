@@ -1,0 +1,50 @@
+name: publish
+
+on:
+  push:
+    branches:
+      - coatl
+    paths:
+      - .github/workflows/docker-build-push-multi-registry.yml
+      - .github/workflows/publish.yml
+      - build/**
+      - pip-tools/**
+  workflow_dispatch:
+
+env:
+  IMAGE_NAME: 'python-tools'
+
+jobs:
+  publish:
+    uses: ./.github/workflows/docker-build-push-multi-registry.yml
+    strategy:
+      matrix:
+        include:
+          - context: build/2.7
+            file: build/2.7/Dockerfile
+            tag: python-tools:2.7-build
+            digest-key: python-tools-2.7-build
+          - context: build/3.12
+            file: build/3.12/Dockerfile
+            tag: python-tools:3.12-build
+            digest-key: python-tools-3.12-build
+          - context: pip-tools/2.7
+            file: pip-tools/2.7/Dockerfile
+            tag: python-tools:2.7-pip-tools
+            digest-key: python-tools-2.7-pip-tools
+    with:
+      dockerhub-repo: coatldev/python-tools
+      dockerhub-username: ${{ vars.DOCKERHUB_USERNAME }}
+      ghcr-repo: ghcr.io/coatl-dev/python-tools
+      ghcr-username: ${{ github.repository_owner }}
+      quay-repo: quay.io/coatldev/python-tools
+      quay-username: ${{ vars.QUAY_USERNAME }}
+      build-context: ${{ matrix.context }}
+      build-file: ${{ matrix.file }}
+      build-digest-key: ${{ matrix.digest-key }}
+      metadata-tags: |
+        type=raw,value=${{ matrix.tag }}
+    secrets:
+      dockerhub-password: ${{ secrets.DOCKERHUB_TOKEN }}
+      ghcr-password: ${{ secrets.GHCR_TOKEN }}
+      quay-password: ${{ secrets.QUAY_ROBOT_TOKEN }}

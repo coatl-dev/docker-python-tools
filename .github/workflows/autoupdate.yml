@@ -1,0 +1,62 @@
+name: autoupdate
+
+on:
+  schedule:
+    - cron: '0 18 1,16 * *'
+  workflow_dispatch:
+
+jobs:
+  autoupdate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.COATL_BOT_GH_TOKEN }}
+
+      - name: Upgrade build/2.7/requirements.txt
+        uses: coatl-dev/actions/pip-compile-upgrade@v4
+        with:
+          path: requirements.txt
+          python-version: '2.7'
+          working-directory: build/2.7
+
+      - name: Upgrade build/3.12/requirements.txt
+        uses: coatl-dev/actions/uv-pip-compile-upgrade@v4
+        with:
+          path: requirements.txt
+          python-version: '3.12'
+          working-directory: build/3.12
+
+      - name: Upgrade pip-tools/2.7/requirements.txt
+        uses: coatl-dev/actions/pip-compile-upgrade@v4
+        with:
+          path: requirements/tools.txt
+          python-version: '2.7'
+          working-directory: build/2.7
+
+      - name: Detect changes
+        id: git-diff
+        uses: coatl-dev/actions/simple-git-diff@v4
+
+      - name: Import GPG key
+        if: ${{ steps.git-diff.outputs.diff == 'true' }}
+        id: gpg-import
+        uses: coatl-dev/actions/gpg-import@v4
+        with:
+          passphrase: ${{ secrets.COATL_BOT_GPG_PASSPHRASE }}
+          private-key: ${{ secrets.COATL_BOT_GPG_PRIVATE_KEY }}
+
+      - name: Commit and push changes
+        if: ${{ steps.git-diff.outputs.diff == 'true' }}
+        run: |
+          git checkout -B autoupdate
+          git add -u
+          git commit -m "build(deps): update build dependencies"
+          git push --force --set-upstream origin autoupdate
+
+      - name: Create pull request
+        if: ${{ steps.git-diff.outputs.diff == 'true' }}
+        uses: coatl-dev/actions/pr-create@v4
+        with:
+          gh-token: ${{ secrets.COATL_BOT_GH_TOKEN }}
