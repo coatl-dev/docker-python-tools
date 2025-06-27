@@ -22,15 +22,15 @@ jobs:
         include:
           - context: build/2.7
             file: build/2.7/Dockerfile
-            tag: python-tools:2.7-build
+            tag: 2.7-build
             digest-key: python-tools-2.7-build
           - context: build/3.12
             file: build/3.12/Dockerfile
-            tag: python-tools:3.12-build
+            tag: 3.12-build
             digest-key: python-tools-3.12-build
           - context: pip-tools/2.7
             file: pip-tools/2.7/Dockerfile
-            tag: python-tools:2.7-pip-tools
+            tag: 2.7-pip-tools
             digest-key: python-tools-2.7-pip-tools
     with:
       dockerhub-repo: coatldev/python-tools
