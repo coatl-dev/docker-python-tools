@@ -30,8 +30,8 @@ jobs:
       - name: Upgrade pip-tools/2.7/requirements.txt
         uses: coatl-dev/actions/pip-compile-upgrade@v5
         with:
-          path: requirements/tools.txt
-          working-directory: build/2.7
+          path: requirements.txt
+          working-directory: pip-tools/2.7
 
       - name: Detect changes
         id: git-diff
