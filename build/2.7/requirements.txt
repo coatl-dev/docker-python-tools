@@ -19,7 +19,7 @@ contextlib2==0.6.0.post1
     #   importlib-metadata
     #   importlib-resources
     #   zipp
-distlib==0.3.9
+distlib==0.4.0
     # via virtualenv
 docutils==0.18.1
     # via readme-renderer
