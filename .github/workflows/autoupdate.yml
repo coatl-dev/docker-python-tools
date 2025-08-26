@@ -33,6 +33,13 @@ jobs:
           path: requirements.txt
           working-directory: pip-tools/2.7
 
+      - name: Upgrade pip-tools/3.13/requirements.txt
+        uses: coatl-dev/actions/uv-pip-compile-upgrade@v5
+        with:
+          path: requirements.txt
+          python-version: '3.13'
+          working-directory: pip-tools/3.13
+
       - name: Detect changes
         id: git-diff
         uses: coatl-dev/actions/simple-git-diff@v5
