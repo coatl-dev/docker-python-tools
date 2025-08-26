@@ -1,0 +1,5 @@
+[pip]
+no-strip-extras = true
+output-file = "requirements.txt"
+python-platform = "linux"
+python = "3.13"
