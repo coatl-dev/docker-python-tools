@@ -2,8 +2,8 @@
 
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/coatl-dev/docker-python-tools/coatl.svg)](https://results.pre-commit.ci/latest/github/coatl-dev/docker-python-tools/coatl)
 
-This repository is a collection of Docker images containing tools Python 2.7,
-3.12 and 3.13.
+This repository is a collection of Docker images containing tools Python 2.7 and
+3.12.
 
 ## Catalog
 
@@ -28,9 +28,4 @@ the following tools:
 ### python-tools:2.7-pip-tools
 
 Use this Docker image for running `pip-compile` or `pip-sync` on your Python 2.7
-project.
-
-### python-tools:3.13-pip-tools
-
-Use this Docker image for running `pip-compile` or `pip-sync` on your Python 3.13
 project.

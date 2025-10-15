@@ -29,10 +29,6 @@ jobs:
             file: pip-tools/2.7/Dockerfile
             tag: 2.7-pip-tools
             digest-key: python-tools-2.7-pip-tools
-          - context: pip-tools/3.13
-            file: pip-tools/3.13/Dockerfile
-            tag: 3.13-pip-tools
-            digest-key: python-tools-3.13-pip-tools
     with:
       dockerhub-repo: coatldev/python-tools
       dockerhub-username: ${{ vars.DOCKERHUB_USERNAME }}
