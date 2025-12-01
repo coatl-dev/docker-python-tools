@@ -63,7 +63,7 @@ rfc3986==2.0.0
     # via twine
 rich==14.2.0
     # via twine
-secretstorage==3.4.1
+secretstorage==3.5.0
     # via keyring
 twine==6.2.0
     # via -r requirements.in
